@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hibouzid <hibouzid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hibouzid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 09:56:09 by hibouzid          #+#    #+#             */
-/*   Updated: 2023/11/28 11:30:53 by hibouzid         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:54:10 by hibouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	ft_chose(char *str, ...);
 int ft_putchar(char c);
 int ft_putstr(char *str);
 int ft_strlen(char *str);
-int  ft_putnbr_base(char *str, long long nbr);
+void ft_putnbr(long nbr, int *count);
+void	ft_print_base(char *str, unsigned long nb, int *j);
 
 #endif

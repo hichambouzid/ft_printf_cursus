@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_util.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hibouzid <hibouzid@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hibouzid <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 13:08:13 by hibouzid          #+#    #+#             */
-/*   Updated: 2023/11/28 11:27:46 by hibouzid         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:00:13 by hibouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,31 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-void	ft_print_base(char *str, long long nb, int *j)
+void	ft_print_base(char *str, unsigned long nb, int *j)
 {
-	if (nb < 0)
-	{
-		*j += ft_putchar('-');
-		ft_print_base(str, nb * -1, j);
-	}
-	else if (nb < ft_strlen(str))
-		*j += ft_putchar(str[nb]);
-	else
+
+	if (nb >= (unsigned long)ft_strlen(str))
 	{
 		ft_print_base(str, nb / ft_strlen(str), j);
 		ft_print_base(str, nb % ft_strlen(str), j);
 	}
+	else
+		*j += ft_putchar(str[nb]);
 }
 
-int	ft_putnbr_base(char *str, long long nbr)
+
+void ft_putnbr(long nbr, int *count)
 {
-	int j;
-
-	j = 0;
-	ft_print_base(str, nbr, &j);
-	return (j);
+	if (nbr < 0)
+	{
+		*count += ft_putchar('-');
+		ft_putnbr(nbr * -1,  count);
+	}
+	else if (nbr > 9)
+	{
+		ft_putnbr(nbr / 10, count);
+		ft_putnbr(nbr % 10, count);
+	}
+	else
+		*count += ft_putchar(nbr + 48);
 }
-
