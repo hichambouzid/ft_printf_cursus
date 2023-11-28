@@ -3,41 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_util.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hibouzid <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hibouzid <hibouzid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 13:08:13 by hibouzid          #+#    #+#             */
-/*   Updated: 2023/11/27 15:47:42 by hibouzid         ###   ########.fr       */
+/*   Updated: 2023/11/28 11:27:46 by hibouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int ft_putchar(char c)
+int	ft_putchar(char c)
 {
 	return (write(1, &c, 1));
 }
 
-int ft_putstr(char *str)
+int	ft_putstr(char *str)
 {
-	int i;
-	
+	int	i;
+
+	if (!str)
+	{
+		return (write(1, "(null)", 6));
+	}
 	i = 0;
 	while (str[i])
 		ft_putchar(str[i++]);
 	return (i);
 }
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
-	i++;
+		i++;
 	return (i);
 }
 
-void ft_print_base(char *str, long nb, int *j)
+void	ft_print_base(char *str, long long nb, int *j)
 {
 	if (nb < 0)
 	{
@@ -45,7 +49,7 @@ void ft_print_base(char *str, long nb, int *j)
 		ft_print_base(str, nb * -1, j);
 	}
 	else if (nb < ft_strlen(str))
-	*j += ft_putchar(str[nb]);
+		*j += ft_putchar(str[nb]);
 	else
 	{
 		ft_print_base(str, nb / ft_strlen(str), j);
@@ -53,13 +57,12 @@ void ft_print_base(char *str, long nb, int *j)
 	}
 }
 
-int  ft_putnbr_base(char *str, int nbr)
+int	ft_putnbr_base(char *str, long long nbr)
 {
-	long nb;
 	int j;
 
 	j = 0;
-	nb = (long)nbr;
-	ft_print_base(str, nb,&j);
+	ft_print_base(str, nbr, &j);
 	return (j);
 }
+
