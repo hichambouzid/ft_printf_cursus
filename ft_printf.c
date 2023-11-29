@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hibouzid <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hibouzid <hibouzid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 10:31:20 by hibouzid          #+#    #+#             */
-/*   Updated: 2023/11/28 16:30:50 by hibouzid         ###   ########.fr       */
+/*   Updated: 2023/11/29 14:38:31 by hibouzid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 
 int	ft_chose(char *str, ...)
 {
-	va_list		args;
-	int j;
+	va_list	args;
+	int		j;
 
 	j = 0;
 	va_start(args, str);
-	
 	if (*str == 'c')
 		j += ft_putchar((char)va_arg(args, int));
 	else if (*str == 's')
@@ -28,7 +27,8 @@ int	ft_chose(char *str, ...)
 	else if (*str == 'p')
 	{
 		j += ft_putstr("0x");
-		ft_print_base("0123456789abcdef", (unsigned long)va_arg(args, void *), &j);
+		ft_print_base("0123456789abcdef", (unsigned long)va_arg(args, void *),
+			&j);
 	}
 	else if (*str == 'd' || *str == 'i' || *str == 'd')
 		ft_putnbr((long)va_arg(args, int), &j);
@@ -41,10 +41,15 @@ int	ft_chose(char *str, ...)
 	return (j);
 }
 
-int ft_check(char *tab, char c)
+int	ft_putchar(char c)
 {
-	int i;
-	
+	return (write(1, &c, 1));
+}
+
+int	ft_check(char *tab, char c)
+{
+	int	i;
+
 	i = 0;
 	while (tab[i])
 	{
@@ -63,22 +68,22 @@ int	ft_printf(const char *str, ...)
 	int		j;
 
 	va_start(args, str);
-	i = 0;
+	i = -1;
 	count = 0;
-	while (str[i])
+	while (str[++i])
 	{
 		if (str[i] == '%' && !ft_check("cspdiuxX%", str[i + 1]))
 			return (-1);
 		if (str[i] == '%')
 		{
-			j = 0;
 			i++;
 			if (str[i] == '%')
 			{
 				count += ft_putchar(str[i++]);
-				continue;
+				continue ;
 			}
-			j = ft_chose((char *)(str + i), (unsigned long)va_arg(args, void *));
+			j = ft_chose((char *)(str + i), (unsigned long)va_arg(args,
+						void *));
 			if (j == -1)
 			{
 				va_end(args);
@@ -88,16 +93,7 @@ int	ft_printf(const char *str, ...)
 		}
 		else
 			count += ft_putchar(str[i]);
-		i++;
 	}
 	va_end(args);
 	return (count);
-}
-
-int main()
-{
-	int i;
-	
-	i = ft_printf("%%%");
-	printf("%d", i);
 }
